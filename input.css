@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "latin-mono-regular";
+    src: url("webAssets/fonts/LMMono10-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "latin-mono-caps";
+    src: url("webAssets/fonts/LMMonoCaps10-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "latin-mono-cond-oblique";
+    src: url("webAssets/fonts/lmmonoltcond10-oblique-webfont.woff")
+      format("woff");
+    font-weight: normal;
+    font-style: italic;
+    font-variant: small-caps;
+  }
+  @font-face {
+    font-family: "latin-roman";
+    src: url("webAssets/fonts/LMRoman10-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-variant: small-caps;
+  }
+  @font-face {
+    font-family: "latin-roman-caps";
+    src: url("webAssets/fonts/LMRomanCaps10-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-variant: small-caps;
+  }
+  @font-face {
+    font-family: "latin-roman-dunhill-oblique";
+    src: url("webAssets/fonts/LMRomanDunh10-Oblique.woff2") format("woff2");
+    font-weight: normal;
+    font-style: italic;
+  }
+}

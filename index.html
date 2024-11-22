@@ -1,101 +1,141 @@
 <!DOCTYPE html>
-<!-- ↓↓↓ Scroll down to add your site to the webring! ↓↓↓ -->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>CS Webring</title>
-    <meta name="description" content="A webring for Computer Science students and alumni at the University of Waterloo.">
-    <meta name="keywords" content="webring, UWaterloo, Computer Science, CS, personal websites, student portfolio">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cs.uwatering.com/">
-    <meta property="og:title" content="CS Webring">
-    <meta property="og:description" content="A webring for Computer Science students and alumni at the University of Waterloo.">
-    <meta property="og:image" content="https://cs.uwatering.com/og.png">
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://cs.uwatering.com/">
-    <meta property="twitter:title" content="CS Webring">
-    <meta property="twitter:description" content="A webring for Computer Science students and alumni at the University of Waterloo.">
-    <meta property="twitter:image" content="https://cs.uwatering.com/og.png">
+<html>
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
-    <link rel="stylesheet" href="styles.css">
-    <!-- Add D3 library -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="./output.css" rel="stylesheet" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
-<!-- ↓↓↓ OPEN THIS GUY UP ↓↓↓ -->
-<body>
+
+<body class="bg-mustard-100">
+  <main class=" text-black-900 p-6 min-h-[100vh] w-[100vw] overflow-x-hidden">
     <header>
-        <h1>cs.uwatering.com</h1>
-        <img src="./icon.red.svg" alt="CS Logo">
+      <img src="webAssets/logoOnWhite.svg" />
     </header>
-    <main>
-        <input type="text" id="search" placeholder="Search webring members...">
-        <div id="content-wrapper">
-            <div id="webring">
-                <ul id="webring-list"></ul>
-            </div>
-            <div id="webring-chart">
-                <div id="chart-container"></div>
-            </div>
+    <div class="w-2/5">
+      <p class="font-latinRoman mt-10 leading-tight">
+        Welcome to the official webring of students studying CS at the
+        <a class="text-mustard-500 underline" href="">University of Waterloo</a>
+        in Ontario, Canada. This is an ongoing project to document one of the most talented student bodies in the world,
+        all while making them more visible to the public.
+
+      <p class="font-latinRoman mt-4 leading-tight">
+        If you're one of us, we welcome you with open arms
+        (or in this case, open
+        <a class="text-mustard-500 underline" href="">open PRs</a>).
+      </p>
+      </p>
+      <div class="w-full mt-16 flex-flex-col space-y-1" id="webring-list">
+        <div class="grid grid-cols-6 gap-6 mb-6">
+          <span class="col-span-3 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg">NAME</span>
+          <span class="text-right font-latinRomanDunhillOblique text-burgundy-500 text-lg">YEAR</span>
+          <span class="col-span-2 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg">URL</span>
         </div>
-    </main>
-    <footer>
-        <a href="https://github.com/JusGu/uwatering" id="add-site" target="_blank">
-            add your site
-        </a>
-        <a href="https://en.wikipedia.org/wiki/Webring" target="_blank">
-            what's a webring?
-        </a>
-    </footer>
-    <!-- ↓↓↓ THEN OPEN THIS GUY UP ↓↓↓ -->
-    <script>
-        const webringData = {
-            "sites": [
-                {
-                    "name": "Justin Gu",
-                    "year": 2026,
-                    "website": "https://justin.run"
-                },                               
-                {
-                    "name": "Jaiden Ratti",
-                    "year": 2026,
-                    "website": "https://www.jaidenratti.com/"
-                },
-                {
-                    "name": "George Shao",
-                    "year": 2026,
-                    "website": "https://shao.zip"
-                },
-                {
-                    "name": "Jaryd Diamond",
-                    "year": 2026,
-                    "website": "https://jaryddiamond.com"
-                },
-                {
-                    "name": "Ivy Fan-Chiang",
-                    "year": 2027,
-                    "website": "https://ivyfanchiang.ca"
-                },
-                {
-                  "name": "Wilbur Zhang",
-                  "year": 2026,
-                  "website": "https://wilburzhang.com"
-                }
-                // ↑ ADD YOUR SITE ABOVE ↑
-                // https://github.com/JusGu/uwatering
-            ]
-        };
-    </script>
-    <!-- ↑↑↑ -->
-    <script src="script.js"></script>
-    <script src="d3-ring-chart.js"></script>
+      </div>
+
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-10 w-1/2 flex flex-col space-y-2">
+      <input type="text" id="search" placeholder="Search by name, year or url..."
+        class="font-latinMonoCaps px-4 py-2 border border-navy-400/50">
+      <div id="webring-chart" class="border border-navy-400/50">
+        <div id="chart-container" class="h-[32rem]"></div>
+      </div>
+      <p class="w-full text-center font-latinMonoCaps text-navy-400/70">Displaying 10 results</p>
+    </div>
+
+    <div class="fixed top-6 right-6 flex flex-col itembs-end leading-none z-10">
+      <a href="" class="font-latinMonoCondOblique text-lime-400 underline">what's a webring?</a>
+      <a href="" class="font-latinMonoCondOblique text-lime-400 underline">how can i join?</a>
+    </div>
+
+    <div class="fixed -top-12 -right-96">
+      <pre class="font-lion text-[1.25rem] leading-[1.51rem] text-mustard-400">
+      ░░░░      ░░                                                         ░░░░░░░░░░░░                                                                                                                           
+      ░░░░░░   ░░░░                                    ░░░░░░░░░░░░░░░░░                                                         ░░░░░░░░░░░░                              
+         ░░░░░░░░░░                              ░░░░░░░░░░░░░░░░░                                                      ░░░░░░░░░░░░░░░░░░░░░            
+      ░░░░░░░░░░░                                                   ░░░░░░░░░░   ░░                                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░░░░░░░░░░░            ░░░░░░░░░░         ░░░░░░░░░░   ░░░                                 ░░░░░░░░░░░░░░░░░░░░░░░░░░░   
+                  ░░░░░░░░            ░░░░░░░░░         ░░░░░░░░░   ░░░░░                           ░░░░░░░░░░░░░░░░░░░░░░░░░            
+                        ░░░░░░░                              ░░░░░░░░░░░░      ░░░░░░░                     ░░░░░░░░░░░░░░░░░░                                    
+                           ░░░░░░░░                           ░                              ░░░░░░░░░                  ░░░░░░░                           ░░░                                    
+                                 ░░░░░░░░░                                       ░░░░░░░░░░░░░                  ░░░░░░                                                                           
+                                       ░░░░░░░░░░                     ░░░░░░░░░░░░░░░░                  ░░░░                                                                                 
+         ░░░░                     ░░░░░░░░░░░░      ░░░░░░░░░░░░░░░░░                     ░░░░         ░░░                                                               
+         ░░░░░░                        ░░░░░░░░   ░░░░░░░░░░░░░░░░░░                        ░░░░   ░░░░░░                                                            
+   ░░░░░░░░░                           ░░░░░   ░░░░░░░░░░░░░░░░░░░                           ░░░░░░░░                                                                  
+   ░░░░░░░░░░░                                    ░░░░░░░░░░░░░░░░░░░░                              ░░░░░░                                                                     
+         ░░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░░░░░                     ░░░░░░░░░░                                                                  
+         ░░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░   ░░░                  ░░░░░░░░░░░                                                                  
+         ░░░░░   ░░░░░░░░░░░░░░░   ░░░░░░░░░░               ░░░                        ░░░░░░░░░░                                                                     
+                                                                        ░░         ░░░░░░░░░░░░░░                                    ░░░░░                                                                     
+                                                                                    ░░░░░░░░░░░░░░░░                                    ░░░                                                                        
+                                                                                    ░░░░░░░░░░░░░░░░░                              ░░░░                                                                        
+                                                               ░░░░░░░░      ░░░░░░░░░░░░░░░                        ░░░░                                                                           
+                        ░░░░░                     ░░░░░░░░░░░               ░░░░░░░░░░░░░            ░░░░                                                                              
+                     ░░░░░░░                  ░░░░░░░░░    ░░░░░░░░░░░░░░░░░░░░░░░░░░                                                                                 
+                        ░░░░░░░               ░░░░░░░    ░░░░░░░░░░░░░░░░░░░░░░░                                                                                                
+            ░░░░░░░░░░░               ░░░░░░░    ░░░░░░░░░░░░░░░░░░░░░                                                                                                      
+            ░   ░░░░░░░░░░░░░░░░░░░░░    ░░░░░░░░░░░░░░░░░░░░                                                                                                         
+                  ░░░░░░░░░░░░░░░░░░░░░    ░░░░░░░░░░░░░░░░░                                                                                                                  
+                        ░░░░░         ░░░░                              ░░░░░░░░░░░░                                                                                                                           
+                                                                                                   ░░░░░░░░░░░                                                                                                                     
+                                                                                                               ░░░░░░░░░                                                                                                               
+                                                                        ░░░░                     ░░░░░░░░░                                                                                                                     
+                                                                     ░░░░░░░░░░░░░░░░░                                                                                                                                 
+                                                               ░░░░░░░░░░░░░░░░                                                                                                                                          
+                                                            ░░░░░░░░░░░░░░░                                                                                                                                                
+                                                               ░░░░░░░░░░░░░                                                                                                                                                   
+                                                                  ░░░░░░░   ░░░                                                                                                                                                      
+                                                                  ░░░░░                  
+   
+    </pre>
+    </div>
+  </main>
+
+  <script>
+    const webringData = {
+      "sites": [
+        {
+          "name": "Justin Gu",
+          "year": 2026,
+          "website": "https://justin.run"
+        },
+        {
+          "name": "Jaiden Ratti",
+          "year": 2026,
+          "website": "https://www.jaidenratti.com/"
+        },
+        {
+          "name": "George Shao",
+          "year": 2026,
+          "website": "https://shao.zip"
+        },
+        {
+          "name": "Jaryd Diamond",
+          "year": 2026,
+          "website": "https://jaryddiamond.com"
+        },
+        {
+          "name": "Ivy Fan-Chiang",
+          "year": 2027,
+          "website": "https://ivyfanchiang.ca"
+        },
+        {
+          "name": "Wilbur Zhang",
+          "year": 2026,
+          "website": "https://wilburzhang.com"
+        }
+        // ↑ ADD YOUR SITE ABOVE ↑
+        // https://github.com/JusGu/uwatering
+      ]
+    };
+  </script>
+  <!-- ↑↑↑ -->
+  <script src="script.js"></script>
+  <script src="d3-ring-chart.js"></script>
+
 </body>
-<!-- ↑↑↑ -->
+
 </html>
