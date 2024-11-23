@@ -6,10 +6,12 @@ module.exports = {
       fontFamily: {
         latinMonoRegular: "latin-mono-regular, ui-mono",
         latinMonoCaps: "latin-mono-caps, ui-mono",
-        latinMonoCondOblique: "latin-mono-cond-oblique, ui-mono",
+        latinMonoCondOblique:
+          "latin-mono-cond-oblique, latin-mono-regular, ui-mono",
         latinRoman: "latin-roman, ui-serif",
         latinRomanCaps: "latin-roman-caps, ui-serif",
-        latinRomanDunhillOblique: "latin-roman-dunhill-oblique",
+        latinRomanDunhillOblique:
+          "latin-roman-dunhill-oblique, latin-mono-caps, ui-serif",
         lion: "Times New Roman, Times, serif",
       },
       colors: {

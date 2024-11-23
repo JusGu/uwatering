@@ -5,53 +5,133 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="./output.css" rel="stylesheet" />
+  <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- ↓↓↓ OPEN THIS GUY UP ↓↓↓ -->
+  <script>
+    const webringData = {
+      "sites": [
+        {
+          "name": "Justin Gu",
+          "year": 2026,
+          "website": "https://justin.run"
+        },
+        {
+          "name": "Jaiden Ratti",
+          "year": 2026,
+          "website": "https://www.jaidenratti.com/"
+        },
+        {
+          "name": "George Shao",
+          "year": 2026,
+          "website": "https://shao.zip"
+        },
+        {
+          "name": "Jaryd Diamond",
+          "year": 2026,
+          "website": "https://jaryddiamond.com"
+        },
+        {
+          "name": "Ivy Fan-Chiang",
+          "year": 2027,
+          "website": "https://ivyfanchiang.ca"
+        },
+        {
+          "name": "Wilbur Zhang i have a really long name",
+          "year": 2026,
+          "website": "https://wilburzhangihaveareallylongwebsiteandwillmakeyoucry.com"
+        }
+        // ↑ ADD YOUR SITE ABOVE ↑
+        // https://github.com/JusGu/uwatering
+      ]
+    };
+  </script>
+  <!-- ↑↑↑ -->
+  <script src="script.js"></script>
+  <script src="d3-ring-chart.js"></script>
+  <script src="d3-ring-chart-mobile.js"></script>
 </head>
 
 <body class="bg-mustard-100">
-  <main class=" text-black-900 p-6 min-h-[100vh] w-[100vw] overflow-x-hidden">
-    <header>
+  <main class=" text-black-900 px-2 py-6 sm:p-6 sm:min-h-[100vh] sm:w-[100vw] overflow-x-hidden">
+    <header class="hidden sm:block">
       <img src="webAssets/logoOnWhite.svg" />
     </header>
-    <div class="w-2/5">
-      <p class="font-latinRoman mt-10 leading-tight">
+    <div class="sm:hidden fixed top-6 left-0 w-full px-2">
+      <input type="text" id="search-mobile" placeholder="Search by name, year or url..."
+        class=" w-full font-latinMonoCaps px-4 py-2 border border-lime-700 rounded-none" />
+    </div>
+    <div class="w-full sm:w-3/5 lg:w-2/5">
+      <p class="hidden sm:block font-latinRoman mt-10 leading-tight">
         Welcome to the official webring of students studying CS at the
         <a class="text-mustard-500 underline" href="">University of Waterloo</a>
         in Ontario, Canada. This is an ongoing project to document one of the most talented student bodies in the world,
         all while making them more visible to the public.
 
-      <p class="font-latinRoman mt-4 leading-tight">
+      <p class="hidden sm:block font-latinRoman mt-4 leading-tight">
         If you're one of us, we welcome you with open arms
         (or in this case, open
         <a class="text-mustard-500 underline" href="">open PRs</a>).
       </p>
       </p>
-      <div class="w-full mt-16 flex-flex-col space-y-1" id="webring-list">
-        <div class="grid grid-cols-6 gap-6 mb-6">
-          <span class="col-span-3 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg">NAME</span>
-          <span class="text-right font-latinRomanDunhillOblique text-burgundy-500 text-lg">YEAR</span>
-          <span class="col-span-2 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg">URL</span>
+      <div>
+        <div class="grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6 mb-6 mt-16">
+          <span
+            class="col-span-5 sm:col-span-3 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg italic">NAME</span>
+          <span
+            class="col-span-2 sm:col-span-1 text-right font-latinRomanDunhillOblique text-burgundy-500 text-lg italic">YEAR</span>
+          <span
+            class="col-span-5 sm:col-span-2 text-left font-latinRomanDunhillOblique text-burgundy-500 text-lg italic">URL</span>
+        </div>
+        <div class="w-full flex-flex-col space-y-1 text-sm sm:text-base" id="webring-list">
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="hidden fixed bottom-0 right-0 z-10 w-full p-6 lg:w-1/2 sm:flex flex-col space-y-2">
+      <input type="text" id="search" placeholder="Search by name, year or url..."
+        class="font-latinMonoCaps px-4 py-2 border border-navy-400/50" />
+      <div id="webring-chart" class="border border-navy-400/50">
+        <div id="chart-container" class="h-[24rem] lg:h-[32rem]"></div>
+      </div>
+    </div>
+
+    <footer x-data="{ open: false }"
+      class="fixed bottom-0 left-0 w-full sm:hidden bg-white border-t border-black-800 pt-4 pb-6 px-2">
+      <div @click="open = ! open" class="flex justify-between">
+        <button class="font-latinMonoRegular text-b202020lack-900 flex space-x-2 items-center">
+          <img src="webAssets/icons/expand.svg" />
+          <span x-text="open ? 'CLOSE' : 'MORE INFO'"></span>
+        </button>
+        <div class="flex space-x-4 leading-none">
+          <a href="" class="font-latinMonoCondOblique text-lime-700 underline italic">what's a webring?</a>
+          <a href="" class="font-latinMonoCondOblique text-lime-700 underline italic">how can i join?</a>
         </div>
       </div>
 
-    </div>
-
-    <div class="fixed bottom-6 right-6 z-10 w-1/2 flex flex-col space-y-2">
-      <input type="text" id="search" placeholder="Search by name, year or url..."
-        class="font-latinMonoCaps px-4 py-2 border border-navy-400/50">
-      <div id="webring-chart" class="border border-navy-400/50">
-        <div id="chart-container" class="h-[32rem]"></div>
+      <div x-show="open" class="w-full mt-8">
+        <p class="w-full font-latinMonoRegular leading-none">
+          We are computer science students and alumni studying at the <a href="text-mustard-500 underline">University of
+            Waterloo</a> in Ontario, Canada. If you're one of us, we welcome you with open arms. (Or in this case, open
+          <a class="text-mustard-500 underline" href="">open PRs</a>).
+        </p>
+        <div id="webring-chart" class="w-full border border-black-900 mt-4">
+          <div id="chart-container" class="h-[12rem]"></div>
+        </div>
       </div>
-      <p class="w-full text-center font-latinMonoCaps text-navy-400/70">Displaying 10 results</p>
+
+      <img src="webAssets/logoOnWhite.svg" class="mt-8" />
+    </footer>
+
+    <div class="hidden sm:flex fixed top-6 right-6 flex-col itembs-end leading-none z-10">
+      <a href="" class="font-latinMonoCondOblique text-lime-400 underline italic">what's a webring?</a>
+      <a href="" class="font-latinMonoCondOblique text-lime-400 underline italic">how can i join?</a>
     </div>
 
-    <div class="fixed top-6 right-6 flex flex-col itembs-end leading-none z-10">
-      <a href="" class="font-latinMonoCondOblique text-lime-400 underline">what's a webring?</a>
-      <a href="" class="font-latinMonoCondOblique text-lime-400 underline">how can i join?</a>
-    </div>
-
-    <div class="fixed -top-12 -right-96">
-      <pre class="font-lion text-[1.25rem] leading-[1.51rem] text-mustard-400">
+    <div class="fixed -top-4 sm:-top-12 -right-80 sm:-right-96 -z-10">
+      <pre class="font-lion leading-tight sm:text-[1.25rem] sm:leading-[1.51rem] text-mustard-400">
       ░░░░      ░░                                                         ░░░░░░░░░░░░                                                                                                                           
       ░░░░░░   ░░░░                                    ░░░░░░░░░░░░░░░░░                                                         ░░░░░░░░░░░░                              
          ░░░░░░░░░░                              ░░░░░░░░░░░░░░░░░                                                      ░░░░░░░░░░░░░░░░░░░░░            
@@ -93,49 +173,6 @@
     </pre>
     </div>
   </main>
-
-  <script>
-    const webringData = {
-      "sites": [
-        {
-          "name": "Justin Gu",
-          "year": 2026,
-          "website": "https://justin.run"
-        },
-        {
-          "name": "Jaiden Ratti",
-          "year": 2026,
-          "website": "https://www.jaidenratti.com/"
-        },
-        {
-          "name": "George Shao",
-          "year": 2026,
-          "website": "https://shao.zip"
-        },
-        {
-          "name": "Jaryd Diamond",
-          "year": 2026,
-          "website": "https://jaryddiamond.com"
-        },
-        {
-          "name": "Ivy Fan-Chiang",
-          "year": 2027,
-          "website": "https://ivyfanchiang.ca"
-        },
-        {
-          "name": "Wilbur Zhang",
-          "year": 2026,
-          "website": "https://wilburzhang.com"
-        }
-        // ↑ ADD YOUR SITE ABOVE ↑
-        // https://github.com/JusGu/uwatering
-      ]
-    };
-  </script>
-  <!-- ↑↑↑ -->
-  <script src="script.js"></script>
-  <script src="d3-ring-chart.js"></script>
-
 </body>
 
 </html>

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .style("background-color", "#fff")
+    .style("background-color", "#FAF8F8")
     .style("cursor", "move");
 
   const g = svg.append("g");
@@ -240,12 +240,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ? `Sites: ${totalNodes} | Highlighted: ${highlightedNodes}`
       : `Sites: ${totalNodes}`;
 
-    const statsDisplay = svg.select(".stats-display");
+    const statsDisplay = svg.select("#stats-display");
     statsDisplay.text(statsText);
 
     // Update background width based on text
     const textWidth = statsDisplay.node().getComputedTextLength();
-    const statsBackground = svg.select(".stats-background");
+    const statsBackground = svg.select("#stats-background");
     statsBackground.attr("width", textWidth + 20).attr("height", 25);
 
     if (searchTerm) {
@@ -344,16 +344,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // After creating the svg but before creating the g element
   const statsDisplay = svg
     .append("text")
-    .attr("class", "font-latinMonoCondOblique")
+    .attr("class", "font-latinMonoCondOblique italic")
+    .attr("id", "stats-display")
     .attr("x", 10)
-    .attr("y", height - 12)
+    .attr("y", height - 13)
     .attr("fill", "white")
     .attr("font-size", "1rem");
 
   // Create a background rectangle for the stats
   const statsBackground = svg
     .append("rect")
-    .attr("class", "stats-background")
+    .attr("id", "stats-background")
     .attr("fill", "#4F587C")
     .attr("opacity", 0.5)
     .attr("x", 5)
