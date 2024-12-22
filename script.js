@@ -1,108 +1,111 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Colorful console message for curious developers
-    console.log(
-        "%c👋 Hey there" +
-        "\n\n%cLooks like you're poking around in the console. Why not add your site to the webring?" +
-        "\n\n%c→ https://github.com/JusGu/uwatering",
-        "font-size: 18px; font-weight: bold; color: #FF3366;",
-        "font-size: 14px; color: #00FF00;",
-        "font-size: 14px; color: #3399FF; text-decoration: underline;"
-    );
+let logConsoleMessage = () => {
+  console.log(
+    "%c👋 Hey there" +
+      "\n\n%cLooks like you're poking around in the console. Why not add your site to the webring?" +
+      "\n\n%c→ https://github.com/JusGu/uwatering",
+    "font-size: 18px; font-weight: bold; color: #FF3366;",
+    "font-size: 14px; color: #00FF00;",
+    "font-size: 14px; color: #3399FF; text-decoration: underline;"
+  );
+};
+let createWebringList = (sites) => {
+  const webringList = document.getElementById("webring-list");
+  webringList.innerHTML = "";
+  sites.forEach((site) => {
+    const displayUrl = site.website
+      .replace(/^https?:\/\/(www\.)?/, "")
+      .replace(/\/$/, "");
 
-    // Get the search input element
-    const searchInput = document.getElementById('search');
+    const listItem = document.createElement("div");
+    listItem.className = "grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6";
 
-    // Handle URL fragment on page load
-    function handleUrlFragment() {
-        const fragment = window.location.hash.slice(1); // Remove the # symbol
-        if (fragment) {
-            searchInput.value = decodeURIComponent(fragment);
-            filterWebring(fragment);
-            const searchEvent = new Event('input');
-            searchInput.dispatchEvent(searchEvent);
-        }
-    }
+    const name = document.createElement("span");
+    name.className = "col-span-5 sm:col-span-3 font-latinRomanCaps truncate";
+    name.textContent = site.name;
 
-    // Filter webring sites based on search input
-    function filterWebring(searchTerm) {
-        const searchLower = searchTerm.toLowerCase();
-        const filteredSites = webringData.sites.filter(site => 
-            site.name.toLowerCase().includes(searchLower) ||
-            site.website.toLowerCase().includes(searchLower) ||
-            site.year.toString().includes(searchLower)
-        );
-        createWebringList(filteredSites);
-    }
+    const year = document.createElement("span");
+    year.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
+    year.textContent = site.year;
 
-    // Create and populate the webring list
-    function createWebringList(sites) {
-        const webringList = document.getElementById('webring-list');
-        webringList.innerHTML = sites.map((site) => {
-            const displayUrl = site.website
-                .replace(/^https?:\/\/(www\.)?/, '') 
-                .replace(/\/$/, ''); 
-                
-            const originalIndex = webringData.sites.findIndex(s => s.website === site.website);
-                
-            return `
-                <li>
-                    <a href="${site.website}" target="_blank">
-                        <span class="number">${originalIndex + 1}.</span>
-                        <span class="name">${site.name}</span>
-                        <span class="separator">|</span>
-                        <span class="website">${displayUrl}</span>
-                        <span class="separator">|</span>
-                        <span class="year">${site.year}</span>
-                    </a>
-                </li>
-            `;
-        }).join('');
-    }
+    const link = document.createElement("a");
+    link.href = site.website;
+    link.className =
+      "col-span-5 sm:col-span-2 font-latinMonoRegular text-mustard-500 underline truncate";
+    link.textContent = displayUrl;
 
-    // Initial creation of the list
-    createWebringList(webringData.sites);
+    listItem.appendChild(name);
+    listItem.appendChild(year);
+    listItem.appendChild(link);
+    webringList.appendChild(listItem);
+  });
+};
+function handleUrlFragment(searchInput) {
+  const fragment = window.location.hash.slice(1); // Remove the # symbol
+  if (fragment) {
+    searchInput.value = decodeURIComponent(fragment);
+    filterWebring(fragment);
+    const searchEvent = new Event("input");
+    searchInput.dispatchEvent(searchEvent);
+  }
+}
+function filterWebring(searchTerm) {
+  const searchLower = searchTerm.toLowerCase();
+  const filteredSites = webringData.sites.filter(
+    (site) =>
+      site.name.toLowerCase().includes(searchLower) ||
+      site.website.toLowerCase().includes(searchLower) ||
+      site.year.toString().includes(searchLower)
+  );
+  createWebringList(filteredSites);
+}
+let navigateWebring = () => {
+  // https://cs.uwatering.com/#your-site-here?nav=next OR
+  // https://cs.uwatering.com/#your-site-here?nav=prev
+  const fragment = window.location.hash.slice(1); // #your-site-here?nav=
+  if (!fragment.includes("?")) return;
+  const [currentSite, query] = fragment.split("?");
+  const params = new URLSearchParams(query);
+  const nav = params.get("nav");
+  if (!nav || !["next", "prev"].includes(nav)) return;
 
-    // Add event listener for search input
-    searchInput.addEventListener('input', (e) => {
-        filterWebring(e.target.value);
-    });
+  const currIndex = webringData.sites.findIndex((site) =>
+    site.website.includes(currentSite)
+  );
+  if (currIndex === -1) return;
+  const increment = nav === "next" ? 1 : -1;
+  let newIndex = (currIndex + increment) % webringData.sites.length;
+  if (newIndex < 0) newIndex = webringData.length - 1;
+  if (!webringData.sites[newIndex]) return;
 
-    // Handle URL changes
-    window.addEventListener('hashchange', handleUrlFragment);
+  document.body.innerHTML = `
+  <main class="p-6 min-h-[100vh] w-[100vw] text-black-900">
+    <p class="font-latinMonoCondOblique">redirecting...</p>
+  </main>
+  `;
+  window.location.href = webringData.sites[newIndex].website;
+};
 
-    // Handle initial URL fragment without any delay
-    handleUrlFragment();
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.hash.includes("?nav=")) {
+    navigateWebring();
+  }
+  const desktopInput = document.getElementById("search");
+  const mobileInput = document.getElementById("search-mobile");
 
-    // Function to handle previous and next navigation
-    function navigateWebring() {
-        const fragment = window.location.hash.slice(1); // Get the current site and nav from the URL fragment
-        const [currentSite, query] = fragment.split('?');
-        const params = new URLSearchParams(query);
-        const nav = params.get('nav');
+  logConsoleMessage();
+  createWebringList(webringData.sites);
+  handleUrlFragment(desktopInput);
+  handleUrlFragment(mobileInput);
 
-        const currentIndex = webringData.sites.findIndex(site => site.website.includes(currentSite));
-
-        if (currentIndex === -1 || !nav) return; // If the site or nav is not found, do nothing
-
-        let newIndex;
-        if (nav === 'prev') {
-            newIndex = (currentIndex === 0) ? webringData.sites.length - 1 : currentIndex - 1;
-        } else if (nav === 'next') {
-            newIndex = (currentIndex === webringData.sites.length - 1) ? 0 : currentIndex + 1;
-        }
-
-        const newSite = webringData.sites[newIndex];
-        if (newSite) {
-            // Redirect without preserving the hash
-            window.location.href = newSite.website;
-        }
-    }
-
-    // Call navigateWebring on page load if there's a nav in the URL
-    if (window.location.hash.includes('?nav=')) {
-        navigateWebring();
-    }
-
-    // Example usage: navigateWebring('left') or navigateWebring('right')
-    // You can call these functions based on user input or button clicks
+  desktopInput.addEventListener("input", (e) => {
+    filterWebring(e.target.value);
+  });
+  mobileInput.addEventListener("input", (e) => {
+    filterWebring(e.target.value);
+  });
+  window.addEventListener("hashChange", () => {
+    handleUrlFragment(desktopInput);
+    handleUrlFragment(mobileInput);
+  });
+  window.addEventListener("hashchange", navigateWebring());
 });
