@@ -72,7 +72,7 @@ If none of these quite work for you, feel free to make your own. If you're using
 
 #### _I'm not in CS. Can I still join?_
 
-> We're honoured that you're interested in us! If you're a student in UWaterloo, consider joining the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://uw-ece.github.io/webring/) if you're in these aforementioned programs. We promise they'll also take good care of you :)
+> We're honoured that you're interested in us! If you're a student in UWaterloo, consider joining the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://github.com/roozbehali/ece_webring/) if you're in these aforementioned programs. We promise they'll also take good care of you :)
 >
 > If none of these are a fit, make your own! Webrings are a fantastic way to find new people, and don't take much technical skill to create.
 
@@ -86,6 +86,6 @@ If none of these quite work for you, feel free to make your own. If you're using
 
 ## Credits & Inspiration
 
-This project draws inspiration from the folks at [XXIIVV Webring](https://webring.xxiivv.com/). We're also good friends with our fellow students at the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://uw-ece.github.io/webring/)!
+This project draws inspiration from the folks at [XXIIVV Webring](https://webring.xxiivv.com/). We're also good friends with our fellow students at the [SE Webring](https://se-webring.xyz/) and [ECE Webring](https://github.com/roozbehali/ece_webring/)!
 
 Justin and Wilbur currently maintain the site, so if you see any bugs please let us know by making an issue. We'll try to respond as fast as we can 🤞
