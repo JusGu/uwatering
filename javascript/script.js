@@ -102,7 +102,8 @@ let navigateWebring = () => {
   const [currentSite, query] = fragment.split("?");
   const params = new URLSearchParams(query);
   const nav = params.get("nav");
-  if (!nav || !["next", "prev"].includes(nav)) return;
+  const navTrimmed = nav ? nav.replace(/\/+$/, "").trim() : "";
+  if (!nav || !["next", "prev"].includes(navTrimmed)) return;
 
   const match = webringData.sites.filter((site) =>
     fuzzyMatch(currentSite, site.website)
@@ -117,7 +118,7 @@ let navigateWebring = () => {
   const currIndex = webringData.sites.findIndex((site) =>
     fuzzyMatch(currentSite, site.website)
   );
-  const increment = nav === "next" ? 1 : -1;
+  const increment = navTrimmed === "next" ? 1 : -1;
   let newIndex = (currIndex + increment) % webringData.sites.length;
   if (newIndex < 0) newIndex = webringData.sites.length - 1;
   if (!webringData.sites[newIndex]) return;
@@ -152,5 +153,5 @@ document.addEventListener("DOMContentLoaded", () => {
     handleUrlFragment(desktopInput);
     handleUrlFragment(mobileInput);
   });
-  window.addEventListener("hashchange", navigateWebring());
+  window.addEventListener("hashchange", navigateWebring);
 });
